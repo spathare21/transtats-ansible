@@ -2,10 +2,25 @@
 - name: roles
   hosts: All 
   become: true
-  vars:
-  roles:
-    - setup
-    - db
-    - env
-    - deploy
-    
+  tasks:
+  - import_role:
+      name: setup
+    when: ansible_distribution == "Fedora"
+
+  - import_role:
+      name: rhel-setup
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL" 
+
+  - import_role:
+      name: db
+    when: ansible_distribution == "Fedora"
+
+  - import_role:
+      name: rhel-db
+    when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"  
+      
+  - import_role:
+      name: env
+
+  - import_role:
+      name: deploy
