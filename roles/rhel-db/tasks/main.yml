@@ -36,8 +36,8 @@
         state: started
 
     - name: Alter db user password
-      command: sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+      command: sudo -u postgres psql -c "ALTER USER {{ db_user }} WITH PASSWORD '{{ db_pass }}';"
 
     - name: Creeate database
-      command: sudo -u postgres psql -c "CREATE DATABASE transtats"
+      command: sudo -u postgres psql -c "CREATE DATABASE {{ db_name }} ENCODING = 'UTF-8' LC_CTYPE = 'en_US.utf8' LC_COLLATE = 'en_US.utf8' template = template0"
    

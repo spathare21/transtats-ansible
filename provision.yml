@@ -2,6 +2,11 @@
 - name: roles
   hosts: All 
   become: true
+  vars:
+    db_name: "{{ DATABASE_NAME|default('transtats') }}"
+    db_user: "{{ DATABASE_USER|default('postgres') }}"
+    db_pass: "{{ DATABASE_PASSWD|default('postgres') }}"
+    db_host: "{{ DATABASE_HOST|default('localhost') }}"
   tasks:
   - import_role:
       name: setup
