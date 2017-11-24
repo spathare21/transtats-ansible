@@ -1,12 +1,15 @@
 ---
 # task file db 
-    - name: Init db
-      command: 'su - postgres -c "PGDATA=/var/lib/pgsql/data initdb -S"'
-      ignore_errors: yes      
 
-    - name: Change permission of /var/lib/pgsql/data
+    - name: Delete data directory if exists
+      command: 'rm -rf {{ data_dir }}'
+      
+    - name: Initialize database
+      command: '{{ init_db }}'   
+
+    - name: Change permission of {{ data_dir }}
       file:
-        path: /var/lib/pgsql/data
+        path: '{{ data_dir }}'
         owner: 26
         group: 26
         mode: 0700 
@@ -24,11 +27,11 @@
           # IPv6 local connections:
           #host    all             all             ::1/128                 ident
           host    all             all             ::1/128                 md5      
-        dest: /var/lib/pgsql/data/pg_hba.conf      
+        dest: '{{ data_dir }}pg_hba.conf'      
 
     - name: Start postgresql service 
       service: 
-        name: postgresql
+        name: '{{ pgsql_service }}'
         enabled: yes
         state: started 
 

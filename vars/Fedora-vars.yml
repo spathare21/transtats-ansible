@@ -1,0 +1,12 @@
+---
+
+# Data directory path
+data_dir: /var/lib/pgsql/data/
+
+#Postgesql service name
+pgsql_service: postgresql
+
+#Init db command for fedora
+init_db: postgresql-setup --initdb
+
+ 

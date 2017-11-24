@@ -3,8 +3,9 @@
   hosts: All 
   become: true
   vars_files:
-    - env_vars/env.yml
-    - vars/var.yml
+    - "env_vars/env.yml"
+    - "vars/common-vars.yml"
+    - "vars/{{ ansible_distribution }}-vars.yml"
   tasks:
   - import_role:
       name: setup
@@ -16,12 +17,7 @@
 
   - import_role:
       name: db
-    when: ansible_distribution == "Fedora"
-
-  - import_role:
-      name: rhel-db
-    when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"  
-      
+ 
   - import_role:
       name: env
 
