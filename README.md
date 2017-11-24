@@ -18,7 +18,7 @@ Ansible project for Deploying Transtats
 
     ```
     cd transtats-ansible
-	ansible-playbook "-e 'DATABASE_NAME=db_name DATABASE_USER=db_user  DATABASE_PASSWD=db_pass  DATABASE_HOST=db_host'" provision.yml 
+	ansible-playbook ----extra-vars "DATABASE_NAME=db_name DATABASE_USER=db_user DATABASE_PASSWD=db_pass  DATABASE_HOST=db_host" provision.yml 
 	``` 
 
 	Replace the value in place of db_name, db_user, db_pass and db_host. 

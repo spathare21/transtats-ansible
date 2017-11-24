@@ -5,17 +5,17 @@
 
      - name: create user transtats
        user:
-         name: transtats
+         name: '{{ application_user }}'
          shell: /bin/bash
          comment: "transtats"
          uid: 1040
          group: nginx
          
      - name: switch user to transtats
-       command: '/bin/su - transtats'
+       command: '/bin/su - {{ application_user }}'
 
      - name: Get url
-       shell: curl -s https://api.github.com/repos/transtats/transtats/releases/latest | grep tarball_url | head -n 1 | cut -d '"' -f 4
+       shell: curl -s {{ application_url }} | grep tarball_url | head -n 1 | cut -d '"' -f 4
        register: url
 
      - set_fact: 
@@ -24,25 +24,25 @@
 
      - name: Download transtats tarfile 
        get_url:
-         dest: /home/transtats/transtats.tar.gz
+         dest: '{{ user_home }}/transtats.tar.gz'
          url: "{{ transtats_url }}"
          force: yes   
 
-     - name: Extract transtats.tar.gz into /home/transtats/
+     - name: Extract transtats.tar.gz into '{{ user_home }}'
        unarchive:
-         src: /home/transtats/transtats.tar.gz
-         dest: /home/transtats/  
+         src: '{{ user_home }}/transtats.tar.gz'
+         dest: '{{ user_home }}/'  
          remote_src: yes
 
-     - name: Move code to /home/transtats/transtats-code
-       shell: 'rm -rf /home/transtats/transtats && mv /home/transtats/transtats-transtats* /home/transtats/transtats'       
+     - name: Move code to '{{ user_home }}'/transtats-code
+       shell: 'rm -rf {{ user_home }}/transtats && mv {{ user_home }}/transtats-transtats* {{ user_home }}/transtats'       
 
      - copy:
-         src: /home/transtats/transtats/transtats/settings/keys.json.example
-         dest: /home/transtats/transtats/transtats/settings/keys.json
+         src: '{{ user_home }}/transtats/transtats/settings/keys.json.example'
+         dest: '{{ user_home }}/transtats/transtats/settings/keys.json'
          remote_src: yes
 
-     - command: 'cd /home/transtats/transtats'
+     - command: 'cd {{ user_home }}/transtats'
 
      - name: Create virtual env
        command: 'virtualenv --system-site-packages --python=python3 projectenv'
@@ -52,12 +52,12 @@
 
      - name: install requirements
        pip: 
-         requirements: /home/transtats/transtats/requirements/base.txt
-         virtualenv: /home/transtats/transtats/projectenv
+         requirements: '{{ requirements_path }}'
+         virtualenv: '{{ user_home }}/transtats/projectenv'
          virtualenv_command: virtualenv
 
      - name: Run make migrate
-       shell: 'cd /home/transtats/transtats && source projectenv/bin/activate && make migrate'  
+       shell: 'cd {{ user_home }}/transtats && source projectenv/bin/activate && make migrate'  
 
 
 
