@@ -7,57 +7,53 @@
         force: no
     
     - name: Uninstall epel package if already installed
-      yum: 
+      package: 
         name: epel-release.noarch
         state: absent    
 
     - name: Install Downloaded .rpm package
-      yum:
+      package:
         name: /tmp/epel-release-latest-7.noarch.rpm
         state: present
-      ignore_errors: yes
- 
+       
     - name: Update all
-      yum:
+      package:
         name: '*'
         state: latest
     
     - name: Install necessary packages
-      yum:
+      package:
         name: "{{ item }}"
         state: latest
       with_items:
-        - gcc
-        - python34-devel
-        - python34-pip
-        - python-psycopg2
-        - git
-        - nginx
-      ignore_errors: yes
-
+        - '{{ system_packages }}'
+     
     - name: Execute yum clean 
       command: yum clean all  
 
     - name: Uninstall pgdg package if already install
-      yum: 
+      package: 
         name: pgdg-centos95.noarch
         state: absent
 
     - name: Install pgdg package
-      yum:
+      package:
         name: '{{ pgdg_url }}'
         state: present 
 
+    - name: Uninstall older db packages
+      package: 
+        name: "{{item}}"
+        state: absent
+      with_items:
+        - '{{ db_packages }}' 
+
     - name: Install postgresql package's
-      yum: 
+      package: 
         name: "{{item}}"
         state: latest
       with_items:
-        - postgresql95
-        - postgresql95-server
-        - postgresql95-libs
-        - postgresql95-contrib
-        - postgresql95-devel  
+        - '{{ db_packages }}' 
 
     - name: Creating soft link
       file:
