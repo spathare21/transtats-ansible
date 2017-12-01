@@ -29,4 +29,5 @@ db_packages:
 - postgresql-devel
 - openssh-server
 - openssl-devel
+- python-psycopg2
  

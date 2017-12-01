@@ -6,20 +6,8 @@
     - "env_vars/env.yml"
     - "vars/common-vars.yml"
     - "vars/{{ ansible_distribution }}-vars.yml"
-  tasks:
-  - import_role:
-      name: setup
-    when: ansible_distribution == "Fedora"
-
-  - import_role:
-      name: rhel-setup
-    when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL" 
-
-  - import_role:
-      name: db
- 
-  - import_role:
-      name: env
-
-  - import_role:
-      name: deploy
+  roles:
+    - setup
+    - db
+    - env
+    - deploy
