@@ -23,3 +23,10 @@ Ansible project for Deploying Transtats
 	``` 
 
 	Replace the value in place of db_name, db_user, db_pass and db_host. 
+
+- Run playbook with current/latest master branch.
+
+	```
+    cd transtats-ansible
+	ansible-playbook --extra-vars "git_clone=true" provision.yml 
+	```
