@@ -5,22 +5,26 @@
         dest: /tmp/epel-release-latest-7.noarch.rpm
         url: '{{ epel_url }}'
         force: no
-      when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"   
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"   
     
     - name: Uninstall epel package if already installed
       package: 
         name: epel-release.noarch
         state: absent  
-      when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"     
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"     
 
     - name: Install Downloaded .rpm package
       package:
         name: /tmp/epel-release-latest-7.noarch.rpm
         state: present
-      when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"   
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"   
+
+    - name: clean cache
+      command: rm -fr /var/cache/yum/* && yum clean all
 
     - name: Update all
       package:
+        update_cache: yes
         name: '*'
         state: latest  
 
@@ -35,13 +39,13 @@
       package: 
         name: pgdg-centos95.noarch
         state: absent
-      when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL"     
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"     
 
     - name: Install pgdg package
       package:
         name: '{{ pgdg_url }}'
         state: present
-      when: ansible_distribution == "CentOS" or ansible_distribution == "RHEL" 
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat" 
 
     - name: Uninstall older db packages
       package: 
