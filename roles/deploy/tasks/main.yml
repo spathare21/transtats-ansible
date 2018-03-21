@@ -45,7 +45,11 @@
 
     - set_fact: 
          server_ip: "{{ ip.stdout }}"
-         cacheable: true      
+         cacheable: true 
+
+    - name: Get machine hostname/ip
+      debug:
+        var: "{{ ip.stdout }}"          
 
     - name: Copy content to nginx.conf 
       blockinfile: 
@@ -72,7 +76,8 @@
                   }
                 } 
 
-    - service: 
+    - name: Start and enable nginx service
+      service: 
         name: nginx
         enabled: yes
         state: started

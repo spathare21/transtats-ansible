@@ -16,11 +16,9 @@
     - name: Install Downloaded .rpm package
       package:
         name: /tmp/epel-release-latest-7.noarch.rpm
+        disablerepo: it-eng-extras
         state: present
       when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"   
-
-    - name: clean cache
-      command: yum clean all && rhn-profile-sync && yum makecache
 
     - name: Update all
       package:

@@ -22,6 +22,7 @@ system_packages:
 - python34-pip
 - git
 - nginx
+- koji
 
 #Database packages
 db_packages:

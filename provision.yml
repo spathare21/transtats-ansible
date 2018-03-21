@@ -6,7 +6,7 @@
   vars_files:
     - "env_vars/env.yml"
     - "vars/common-vars.yml"
-    - "vars/RHEL-vars.yml"
+    - "vars/{{ ansible_distribution }}-vars.yml"
   roles:
     - setup
     - db

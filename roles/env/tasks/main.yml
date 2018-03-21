@@ -3,13 +3,20 @@
      - name: Install virtualenv
        command: 'pip3 install virtualenv'
 
-     - name: create user transtats
+     - name: remove user if already exist
+       user:
+         name: '{{ application_user }}'
+         state: absent
+         remove: yes
+         force: yes  
+
+     - name: create user 
        user:
          name: '{{ application_user }}'
          shell: /bin/bash
          comment: "transtats"
          uid: 1040
-         group: nginx
+         group: nginx        
          
      - name: switch user to transtats
        command: '/bin/su - {{ application_user }}'
