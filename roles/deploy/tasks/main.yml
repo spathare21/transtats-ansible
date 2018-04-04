@@ -38,7 +38,7 @@
         enabled: yes
         state: started
         daemon_reload: yes
-
+      
     - name: Get ip
       shell: "hostname" 
       register: ip
@@ -62,7 +62,7 @@
 
                    location = /favicon.ico { access_log off; log_not_found off; }
                    location /static/ {
-                   root {{ user_home }}/transtats/transtats;
+                   root {{ user_home }}/transtats;
                   }
 
                   location / {
@@ -71,8 +71,8 @@
                      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                      proxy_set_header X-Forwarded-Proto $scheme;
                      proxy_pass http://unix:{{ user_home }}/transtats/transtats.sock;
-                     proxy_connect_timeout 180s;
-                     proxy_read_timeout 300s;
+                     proxy_connect_timeout 200s;
+                     proxy_read_timeout 500s;
                   }
                 } 
 
@@ -81,3 +81,18 @@
         name: nginx
         enabled: yes
         state: started
+  
+    - name: List files 
+      command: "ls -la {{ user_home }}/transtats"
+      register: dir_out
+
+    - debug: var={{item}}
+      with_items: dir_out.stdout_lines
+
+    - name: cat error file 
+      command: "cat /var/log/nginx/error.log"
+      register: file_out
+
+    - debug:
+        var: file_out 
+ 
