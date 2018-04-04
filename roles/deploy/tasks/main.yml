@@ -36,11 +36,11 @@
       service:
         name: gunicorn
         enabled: yes
-        state: restarted
+        state: started
         daemon_reload: yes
 
     - name: Get ip
-      shell: "hostname -I | cut -d ' ' -f 1" 
+      shell: "hostname" 
       register: ip
 
     - set_fact: 
