@@ -18,8 +18,10 @@ pgdg_url: http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-3
 #System packages
 system_packages:
 - gcc
-- python34-devel
-- python34-pip
+- python36
+- python36-devel
+- python36-setuptools
+- python36-pip
 - git
 - nginx
 - koji
