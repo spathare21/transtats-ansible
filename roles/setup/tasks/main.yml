@@ -15,8 +15,7 @@
 
     - name: Install Downloaded .rpm package
       package:
-        name: /tmp/epel-release-latest-7.noarch.rpm
-        disablerepo: it-eng-extras
+        name: /tmp/epel-release-latest-7.noarch.rpm        
         state: present
       when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"   
 
